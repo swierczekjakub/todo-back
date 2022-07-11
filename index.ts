@@ -2,13 +2,13 @@ import express, {json, urlencoded} from "express";
 import cors from 'cors';
 import 'express-async-errors';
 import {handleError, ValidationError} from "./utils/errors";
+import {config} from "./config/config";
 
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: config.corsOrigin,
 }));
-
 app.use(urlencoded({
     extended: true
 }));
