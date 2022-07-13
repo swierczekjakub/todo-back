@@ -1,9 +1,9 @@
-import express, {json, urlencoded} from "express";
+import express, {json, Router, urlencoded} from "express";
 import cors from 'cors';
 import 'express-async-errors';
-import {handleError, ValidationError} from "./utils/errors";
-import {config} from "./config/config";
+import {handleError} from "./utils/errors";
 import {todoRouter} from "./routers/todo";
+import {config} from "./config/config-example";
 
 const app = express();
 
@@ -15,7 +15,11 @@ app.use(urlencoded({
 }));
 app.use(json());
 
-app.use('/todo', todoRouter);
+const router = Router();
+
+router.use('/todo', todoRouter);
+
+app.use('/api', router);
 
 app.use(handleError);
 
