@@ -11,6 +11,11 @@ todoRouter
         const todos = await TodoRecord.getAll();
         res.json(todos);
     })
+    .get('/:id', async (req, res) => {
+        const {id} = req.params;
+        const todos = await TodoRecord.getOne(id);
+        res.json(todos);
+    })
     .post('/', async (req, res) => {
         const newTodo = new TodoRecord(req.body as TodoEntity);
         await newTodo.insert();
@@ -18,8 +23,9 @@ todoRouter
     })
     .patch('/:todoId', async (req, res) => {
         const todo = await TodoRecord.getOne(req.params.todoId);
+
         const {body} = req;
-        todo.name = body.name;
+        ({id: todo.id, name: todo.name, isCompleted: todo.isCompleted} = body.updatedTodo);
         await todo.update();
         res.json(todo);
     })
